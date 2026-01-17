@@ -90,8 +90,8 @@ function convertHashtagsToLinks($message) {
         <button onclick='location="../main.php"'>Take me back!</button>
         <?php
         $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
-        $stmt = $pdo->prepare("SELECT username, bio, pfp, PROCOLOUR, bimg FROM profiles WHERE username LIKE :searchTerm LIMIT 1");
-        $stmt->execute(['searchTerm' => '%' . $searchTerm . '%']);
+        $stmt = $pdo->prepare("SELECT username, bio, pfp, PROCOLOUR, bimg FROM profiles WHERE username = :searchTerm LIMIT 1");
+        $stmt->execute(['searchTerm' => $searchTerm]);
         $foundProfile = $stmt->fetch(PDO::FETCH_ASSOC);
         ?>
     </div>
@@ -106,8 +106,8 @@ function convertHashtagsToLinks($message) {
         } else {
             $_SESSION['searchTerm'] = $searchTerm;
 
-            $stmt = $pdo->prepare("SELECT username, bio, pfp, PROCOLOUR, bimg FROM profiles WHERE username LIKE :searchTerm LIMIT 1");
-            $stmt->execute(['searchTerm' => '%' . $searchTerm . '%']);
+            $stmt = $pdo->prepare("SELECT username, bio, pfp, PROCOLOUR, bimg FROM profiles WHERE username = :searchTerm LIMIT 1");
+            $stmt->execute(['searchTerm' => $searchTerm]);
             $foundProfile = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $rawName = $foundProfile['username'];
