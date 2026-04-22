@@ -90,8 +90,8 @@ function convertHashtagsToLinks($message) {
         <button onclick='location="../main.php"'>Take me back!</button>
         <?php
         $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
-        $stmt = $pdo->prepare("SELECT username, bio, pfp, PROCOLOUR, bimg FROM profiles WHERE username = :searchTerm LIMIT 1");
-        $stmt->execute(['searchTerm' => $searchTerm]);
+        $stmt = $pdo->prepare("SELECT username, bio, pfp, PROCOLOUR, bimg FROM profiles WHERE username LIKE :searchTerm LIMIT 1");
+        $stmt->execute(['searchTerm' => '%' . $searchTerm . '%']);
         $foundProfile = $stmt->fetch(PDO::FETCH_ASSOC);
         ?>
     </div>
@@ -106,8 +106,8 @@ function convertHashtagsToLinks($message) {
         } else {
             $_SESSION['searchTerm'] = $searchTerm;
 
-            $stmt = $pdo->prepare("SELECT username, bio, pfp, PROCOLOUR, bimg FROM profiles WHERE username = :searchTerm LIMIT 1");
-            $stmt->execute(['searchTerm' => $searchTerm]);
+            $stmt = $pdo->prepare("SELECT username, bio, pfp, PROCOLOUR, bimg FROM profiles WHERE username LIKE :searchTerm LIMIT 1");
+            $stmt->execute(['searchTerm' => '%' . $searchTerm . '%']);
             $foundProfile = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $rawName = $foundProfile['username'];
@@ -140,21 +140,33 @@ function convertHashtagsToLinks($message) {
                 echo '</div>';
                 echo '<h1>Username: ' . $fullname . '</h1>';
                 echo '<p>Bio: ' . htmlspecialchars($foundProfile['bio']) . '</p>';
-                try {
-                    $stmt = $pdo->prepare("SELECT following FROM users WHERE username = ?");
-                    $stmt->execute([$foundProfile['username']]);
-                    $followers = $stmt->fetchColumn();
-                    $followerCount = $followers ? count(explode(',', $followers)) : 0;
-    
-                    echo "<p>" . htmlspecialchars($rawName, ENT_QUOTES, 'UTF-8') . " has <span style='color:#1877f2; font-weight: bold;'>" . $followerCount . "</span> follower(s).</p>";
-                } catch (PDOException $e) {
-                    echo "Error: " . $e->getMessage();
-                }
 
                 $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
                 $stmt->execute([$rawName]);
                 $resultofsearch = $stmt->fetch(PDO::FETCH_ASSOC);
                 $blockID = $resultofsearch['id'] ?? null;
+                $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+                $stmt->execute([$foundProfile['username']]);
+                $viewedUserId = $stmt->fetchColumn();
+                if ($viewedUserId === false) {
+                    echo "<p style='color:red;'>Profile not found.</p>";
+                } else {
+                    $stmt = $pdo->prepare("SELECT COUNT(*) FROM following WHERE followuser_id = ?");
+                    $stmt->execute([$viewedUserId]);
+                    $followersCount = (int)$stmt->fetchColumn();
+                    echo "<p>" . htmlspecialchars($rawName, ENT_QUOTES, 'UTF-8') . " has <span style='color:#1877f2; font-weight: bold;'>" . $followersCount . "</span> follower(s).</p>";
+                    $isFollowing = false;
+                    if (!empty($userId)) {
+                        $stmt = $pdo->prepare("SELECT 1 FROM following WHERE followuser_id = ? AND followinguser_id = ? LIMIT 1");
+                        $stmt->execute([$viewedUserId, $userId]);
+                        $isFollowing = (bool)$stmt->fetchColumn();
+                    }
+                    if ($isFollowing) {
+                        echo "<p>You follow this user!</p>";
+                    } else {
+                        echo "<p>You do not follow this user!</p>";
+                    }
+                }
                 $stmt = $pdo->prepare('SELECT COUNT(*) FROM blocked WHERE blockedID = ? AND userID = ?');
                 $stmt->execute([$blockID, $userId]);
                 $count = $stmt->fetchColumn();
@@ -165,23 +177,6 @@ function convertHashtagsToLinks($message) {
                 echo '<form method="post" action="block.php">';
                 echo '<input type="submit" value="Block/Unblock" />';
                 echo '</form>';
-                $stmt = $pdo->prepare("SELECT following FROM users WHERE username = ?");
-                $stmt->execute([$username]);
-                $following = $stmt->fetchColumn();
-
-                if ($following !== null) {
-                    $followingList = explode(',', $following);
-                    $followingList = array_map('trim', $followingList);
-    
-                    if (in_array($foundProfile['username'], $followingList)) {
-                        echo "<p>You follow this user!</p>";
-                    } else {
-                        echo "<p>You do not follow this user!</p>";
-                    }
-                } else {
-                    echo "<p>You do not follow this user!</p>";
-                }
-
                 echo '<form method="post" action="follow.php">';
                 echo '<input type="submit" value="Follow/Unfollow" />';
                 echo '</form>';

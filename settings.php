@@ -107,15 +107,15 @@ include 'cmode.php';
         <p></p>
         <hr>
         <p></p>
-        <a href="apikey.php">API key hub</a>
+        <a href="apikey.php"><button>API key hub</button></a>
         <p></p>
         <hr>
         <p></p>
-        <a href="../logout.php">Logout</a>
+        <a href="../logout.php"><button>Logout</button></a>
         <p></p>
         <hr>
         <p></p>
-        <a href="../profiles/sprofile.php">Edit my profile</a>
+        <a href="../profiles/sprofile.php"><button>Edit my profile</button></a>
         <p></p>
         <hr>
         <p></p>

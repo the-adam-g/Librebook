@@ -42,7 +42,7 @@ function extractVideoId($url) {
     parse_str($parsedUrl['query'], $query);
     return isset($query['v']) ? $query['v'] : null;
 }
-function savepost($id) { //lowkey just copied the following user logic here. therandomspoon - 05/08/2025 12:04 UTC
+function savepost($id) { //lowkey just copied the following user logic here. Adam Gillion - 05/08/2025 12:04 UTC
     global $pdo;
     $username = $_SESSION['username'];
 

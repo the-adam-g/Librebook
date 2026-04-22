@@ -1,19 +1,19 @@
 
 # Librebook
-Librebook the free, secure, not selling your data social media solution made by the therandomspoon because they were bored.
+Librebook the free, secure, not selling your data social media solution made by the Adam Gillion because they were bored.
 
 ***Privacy matters. So use Librebook***
 
-[![License](https://img.shields.io/github/license/therandomspoon/librebook?label=License&color=brightgreen&cacheSeconds=3600)](./LICENSE)
-[![Release](https://img.shields.io/github/v/release/therandomspoon/librebook?label=Release&color=brightgreen&cacheSeconds=3600)](https://github.com/therandomspoon/librebook/releases/latest)
-[![Commits](https://img.shields.io/github/commit-activity/y/therandomspoon/librebook?color=red&label=commits)](https://github.com/therandomspoon/librebook/commits)
-[![Issues](https://img.shields.io/github/issues/therandomspoon/librebook?color=important)](https://github.com/therandomspoon/librebook/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/therandomspoon/librebook?color=blueviolet)](https://github.com/therandomspoon/librebook/pulls)
+[![License](https://img.shields.io/github/license/the-adam-g/librebook?label=License&color=brightgreen&cacheSeconds=3600)](./LICENSE)
+[![Release](https://img.shields.io/github/v/release/the-adam-g/librebook?label=Release&color=brightgreen&cacheSeconds=3600)](https://github.com/the-adam-g/librebook/releases/latest)
+[![Commits](https://img.shields.io/github/commit-activity/y/the-adam-g/librebook?color=red&label=commits)](https://github.com/the-adam-g/librebook/commits)
+[![Issues](https://img.shields.io/github/issues/the-adam-g/librebook?color=important)](https://github.com/the-adam-g/librebook/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/the-adam-g/librebook?color=blueviolet)](https://github.com/the-adam-g/librebook/pulls)
 
-![image](https://github.com/therandomspoon/librebook/blob/main/screenshots/bannerbook.png)
+![image](https://github.com/the-adam-g/librebook/blob/main/screenshots/bannerbook.png)
 
 ## Developers
-- Lead developer: Therandomspoon
+- Lead developer: Adam Gillion
 
 - Bing AI: Contributed a lot of the login code as i have no idea what im doing. Also made the code SQL and HTML injection proof
 ## Major Contributors
@@ -58,32 +58,32 @@ First version (genesis) finished on the 22/12/2023 and released on github.
 
 # Screenshots (genesis ver)
 ## landing page
-![image](https://github.com/therandomspoon/librebook/blob/main/screenshots/indexpage.png)
+![image](https://github.com/the-adam-g/librebook/blob/main/screenshots/indexpage.png)
 
 ## messaging page
 (yours will not have these specific images because they are all on my sql server)
-![image](https://github.com/therandomspoon/librebook/blob/main/screenshots/mainpageexample.png)
+![image](https://github.com/the-adam-g/librebook/blob/main/screenshots/mainpageexample.png)
 
 ## editing profiles
 (this is my one not everyones)
-![image](https://github.com/therandomspoon/librebook/blob/main/screenshots/customprofilesexample.png)
+![image](https://github.com/the-adam-g/librebook/blob/main/screenshots/customprofilesexample.png)
 
 ## viewing others profiles
 (even shows the messages that only they sent!)
-![image](https://github.com/therandomspoon/librebook/blob/main/screenshots/searchingupothersprofiles.png)
+![image](https://github.com/the-adam-g/librebook/blob/main/screenshots/searchingupothersprofiles.png)
 
 # A photo of Leo the lion the mascot of Librebook created by Bing AI
-![image](https://github.com/therandomspoon/librebook/blob/main/screenshots/leo.png)
+![image](https://github.com/the-adam-g/librebook/blob/main/screenshots/leo.png)
 
 # Librebook is coconutified!
-![image](https://github.com/therandomspoon/librebook/blob/main/screenshots/coconutted.png)
+![image](https://github.com/the-adam-g/librebook/blob/main/screenshots/coconutted.png)
 
 <hr>
 
 # Welcome to Librebook !
-Librebook is the free, intended to be private social media made by the solo developer Therandomspoon. Librebook is intended to be open source and to exist for others to expand on and host while enjoying their data not being sold.</p>
+Librebook is the free, intended to be private social media made by the solo developer Adam Gillion. Librebook is intended to be open source and to exist for others to expand on and host while enjoying their data not being sold.</p>
 ## Developers
-- Lead developer: Therandomspoon
+- Lead developer: Adam Gillion
 - Bing AI: Contributed a lot of the login code as i have no idea what im doing. Also made the code SQL and HTML injection proof
 ## Major Contributors
 Golddominik893 - i intended to steal a lot of code from Golddominik893 for the login system but i got confused cos im a bit stupid.

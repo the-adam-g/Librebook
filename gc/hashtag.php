@@ -1,21 +1,60 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-include '../config.php';
 session_start();
-
-if (isset($_GET['savepost'])) {
-    savepost($_GET['savepost']);
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    $username = $_SESSION['username'];
+} else {
+    header('Location: ../index.php');
+    exit();
 }
-
-$userId = $_SESSION['user_id'] ?? null;
-$pagenum = $_SESSION['page'];
+?>
+<?php
+// so for some stupid reason the code always breaks unless its in its own 'container' of sorts dont know why and probably wont fix - Adam Gillion
+include '../cmode.php'
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>librebook</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <section id="head">
+        <img src="../images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
+        <h1 id="headl">Librebook</h1>
+    </section>
+    <br>
+    <div id="helloworld" style="position: sticky; align-self: flex-start; float: left;">
+        <?php
+        echo 'Welcome back ' . htmlspecialchars($username) . '!';
+        ?>
+        <p></p>
+        <a href="../deleteyou.php">Delete your account</a><a href="../settings.php" style="float: right;">Go to Settings</a>
+        <p></p>
+        <a href="../logout.php">Logout</a><a href="../profiles/sprofile.php" style="float: right;">See my profile</a>
+        <p></p>
+        <a href="../main.php">Take me back!</a>
+    </div>
+</body>
+<?php
+include '../config.php';
 $kmode = $_SESSION['kmode'] ?? 'off';
 
 function extractVideoId($url) {
     $parsedUrl = parse_url($url);
     parse_str($parsedUrl['query'] ?? '', $query);
     return $query['v'] ?? null;
+}
+
+function convertHashtagsToLinks($message) {
+    $pattern = '/#(\w+)/';
+    return preg_replace($pattern, '<a href="hashtag.php?tag=$1">#$1</a>', $message);
+}
+
+function convertNameToLink($name) {
+    return '<a href="../profiles/rprofiles.php?search=' . urlencode($name) . '">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</a>';
 }
 
 function extractID($string) {
@@ -30,61 +69,26 @@ function extractID($string) {
             $string = substr_replace($string, $replacement, $symbolPosition, $semicolonPosition + 1);
         }
     }
+            
     return $string;
 }
 
-function savepost($id) { //lowkey just copied the following user logic here. Adam Gillion - 05/08/2025 12:04 UTC
-    global $pdo;
-    $username = $_SESSION['username'];
-
-    try {
-        $stmt = $pdo->prepare("UPDATE users SET saved = 
-            CASE 
-                WHEN saved LIKE CONCAT('%', ?, '%') THEN 
-                    TRIM(BOTH ', ' FROM REPLACE(REPLACE(CONCAT(', ', saved, ', '), ', ,', ','), CONCAT(', ', ?, ', '), ', '))
-                WHEN saved = '' THEN 
-                    ?
-                ELSE 
-                    CONCAT(saved, ', ', ?)
-            END 
-            WHERE username = ?");
-        
-        $stmt->execute([$id, $id, $id, $id, $username]);
-
-        header("Location: ../main.php");
-        exit;
-    } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
-    }
-}
-
-
-
-function convertHashtagsToLinks($message) {
-    $pattern = '/#(\w+)/';
-    return preg_replace($pattern, '<a href="../messages/hashtag.php?tag=$1">#$1</a>', $message);
-}
-
-function convertNameToLink($name) {
-    return '<a href="../profiles/rprofiles.php?search=' . urlencode($name) . '">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</a>';
-}
-
 try {
-    $messagenum = ($pagenum - 1) * $offsetnum;
-    $messageId = isset($_GET['id']) ? intval($_GET['id']) : null;
+    $hashtag = isset($_GET['tag']) ? $_GET['tag'] : '';
 
-    if ($messageId) {
-        $stmt = $pdo->prepare("SELECT `id`, `name`, `message`, `timestamp`, `nsfw` FROM messages WHERE id = :id");
-        $stmt->bindParam(':id', $messageId, PDO::PARAM_INT);
-    } else {
-        $stmt = $pdo->prepare("SELECT `id`, `name`, `message`, `timestamp`, `nsfw` FROM messages ORDER BY `timestamp` DESC LIMIT 10 OFFSET :offset");
-        $stmt->bindParam(':offset', $messagenum, PDO::PARAM_INT);
-    }
 
+    $query = "SELECT `id`, `name`, `message`, `timestamp`, `nsfw`
+              FROM messages
+              WHERE `message` LIKE :hashtag
+              ORDER BY `timestamp` DESC";
+
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':hashtag', "%#$hashtag%", PDO::PARAM_STR);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     if ($result) {
+        echo "<section id='messages'>";
+        echo "<h1 style='text-align: center;'>Librebook hashtag: #$hashtag</h1>";
         foreach ($result as $row) {
             $id = $row["id"];
             $counts = [];
@@ -125,18 +129,6 @@ try {
                 }
             }
 
-            $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
-            $stmt->execute([$rawName]);
-            $resultofsearch = $stmt->fetch(PDO::FETCH_ASSOC);
-            $blockID = $resultofsearch['id'] ?? null;
-            $stmt = $pdo->prepare('SELECT COUNT(*) FROM blocked WHERE blockedID = ? AND userID = ?');
-            $stmt->execute([$blockID, $userId]);
-            $count = $stmt->fetchColumn();
-            if ($count == 1) {
-                $message = '<p style="color: red;">[YOU HAVE BLOCKED THIS USER]</p>';
-            } else {
-            }
-
             $message = extractID($message);
             $message = convertHashtagsToLinks($message);
 
@@ -165,7 +157,7 @@ try {
             if ($isNSFW) {
                 echo "<p style='color:red;'>NSFW</p>";
             }
-            
+
             echo "<p style='font-size: 0.9em; color: #888; margin: 0 0 10px;'>Sent on: {$realdate}</p>";
             echo "<div style='color: #ccc; margin-bottom: 8px;'>";
             echo '👍: ' . ($counts['like'] ?? 0) . ' ';
@@ -177,21 +169,6 @@ try {
             $dropdownId = "dropdown_" . $id;
             echo "<div style='display: flex; align-items: center; gap: 10px;'>";
             echo "<a href='../messages/reply.php?id=" . urlencode($id) . "' style='color: #4aa3ff; text-decoration: none;'><button>Reply</button></a>";
-            echo "<a href='../messages/messhare.php?id=" . urlencode($id) . "' style='color: #4aa3ff; text-decoration: none;'><button>Share</button></a>";
-            $savedPostsString = '';
-            if (isset($_SESSION['username'])) {
-                $stmt = $pdo->prepare("SELECT saved FROM users WHERE username = ?");
-                $stmt->execute([$_SESSION['username']]);
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                $savedPostsString = $row['saved'] ?? '';
-            }
-            $savedPostsArray = array_filter(array_map('trim', explode(',', $savedPostsString)));
-            $isSaved = in_array($id, $savedPostsArray);
-            if ($isSaved) {
-                echo '<a href="../messages/messages.php?savepost=' . $id . '"><button>Unsave Post</button></a>';
-            } else {
-                echo '<a href="../messages/messages.php?savepost=' . $id . '"><button>Save Post</button></a>';
-            }
             echo "<div class='dropdown'>
                     <button onclick=\"toggleDropdown('{$dropdownId}')\" class='dropbtn'>React!</button>
                     <div id='{$dropdownId}' class='dropdown-content'>
@@ -204,28 +181,14 @@ try {
             echo "</div><hr style='border-top: 1px #ccc;'>";
             echo "</div>";
         }
+        echo "</section>";
     } else {
-        echo "No messages.";
+        echo "No messages with this hashtag.";
     }
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
 ?>
-<script>
-function toggleDropdown(id) {
-  const el = document.getElementById(id);
-  el.classList.toggle("show");
-}
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    for (var i = 0; i < dropdowns.length; i++) {
-      dropdowns[i].classList.remove('show');
-    }
-  }
-}
-</script>
-
 <style>
 .dropbtn {
   color: white;

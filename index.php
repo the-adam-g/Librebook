@@ -29,7 +29,7 @@ if (isset($_SESSION['user_id'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../css/blue.css">
     <meta property="og:title" content="Librebook">
-    <meta property="og:description" content="Librebook is the free, secure, not selling your data social media solution made by the therandomspoon.">
+    <meta property="og:description" content="Librebook is the free, secure, not selling your data social media solution made by the Adam Gillion.">
     <meta property="og:image" content="http://librebook.rf.gd/images/librebookb.png">
     <meta property="og:url" content="http://librebook.rf.gd/">
     <meta property="og:type" content="website">
@@ -62,6 +62,6 @@ if (isset($_SESSION['user_id'])) {
     </section>
     <br><br>
     <div class="creditbar">
-        <p>Librebook was created by therandomspoon</p>
+        <p>Librebook was created by Adam Gillion</p>
     </div>
 </body>

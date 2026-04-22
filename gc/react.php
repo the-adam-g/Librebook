@@ -11,6 +11,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 include '../cmode.php';
 include '../config.php';
+$chatid = intval($_GET['gcid']);
 $mesid = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $emoji = isset($_GET['react']) ? $_GET['react'] : '';
 ?>
@@ -47,12 +48,12 @@ $emoji = isset($_GET['react']) ? $_GET['react'] : '';
         $query = $pdo->prepare("DELETE FROM reactions WHERE messageid = ? AND username = ? AND reaction = ?");
         $query->execute([$mesid, $username, $emoji]);
         echo "Reaction removed.";
-        header('Location:../main.php');
+        header('Location: gcchat.php?gcid=' . $chatid);
     } else {
-        $query = $pdo->prepare("INSERT INTO reactions (`messageid`, `username`, `reaction`, `userid`) VALUES (?, ?, ?, ?)");
-        $query->execute([$mesid, $username, $emoji, $userId]);
+        $query = $pdo->prepare("INSERT INTO reactions (`messageid`, `username`, `reaction`) VALUES (?, ?, ?)");
+        $query->execute([$mesid, $username, $emoji]);
         echo "Reaction added.";
-        header('Location:../main.php');
+        header('Location: gcchat.php?gcid=' . $chatid);
     }
     ?>
     </section>

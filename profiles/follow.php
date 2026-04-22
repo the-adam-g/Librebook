@@ -1,17 +1,12 @@
+
 <?php
 error_reporting(E_ALL);
-ini_set('display_errors', '1');
+ini_set('display_errors', 1);
 include '../config.php';
-
 session_start();
-$userId = $_SESSION['user_id'];
-$loginuser = $_SESSION['username'];
-$searchusern = $_SESSION['searchTerm'];
-echo $searchusern;
-echo '  -  ';
-echo $loginuser;
-echo '  -  ';
-echo $userId;
+
+$loginuser   = $_SESSION['username'] ?? null;
+$searchusern = $_SESSION['searchTerm'] ?? null;
 
 if (empty($loginuser)) {
     header("Location: notlogin.html");
@@ -19,26 +14,26 @@ if (empty($loginuser)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $stmt = $pdo->prepare("
-        UPDATE users 
-        SET following = 
-            CASE 
-                WHEN following LIKE CONCAT('%', ?, '%') THEN 
-                    TRIM(BOTH ', ' FROM REPLACE(REPLACE(CONCAT(', ', following, ', '), ', ,', ','), CONCAT(', ', ?, ', '), ', '))
-                WHEN following = '' THEN 
-                    ?
-                ELSE 
-                    CONCAT(following, ', ', ?)
-            END 
-        WHERE username = ?
-    ");
-    $stmt->execute([$searchusern, $searchusern, $searchusern, $searchusern, $loginuser]);
+    $stmt1 = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+    $stmt1->execute([$loginuser]);
+    $followinguser_id = $stmt1->fetchColumn();
+    $stmt2 = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+    $stmt2->execute([$searchusern]);
+    $followuser_id = $stmt2->fetchColumn();
+    if (!$followinguser_id || !$followuser_id) {
+        header("Location: rprofiles.php?search=" . urlencode($searchusern) . "&err=unknown_user");
+        exit();
+    }
+    $check = $pdo->prepare("SELECT 1 FROM following WHERE followuser_id = ? AND followinguser_id = ? LIMIT 1");
+    $check->execute([$followuser_id, $followinguser_id]);
+    $exists = $check->fetchColumn();
+    if (!$exists) {
+        $stmt3 = $pdo->prepare("INSERT INTO following (followuser_id, followinguser_id, followingname, timestamp) VALUES (?, ?, ?, CURRENT_TIMESTAMP)");
+        $stmt3->execute([$followuser_id, $followinguser_id, $loginuser]);
+    } else {
+        $stmt4 = $pdo->prepare("DELETE FROM following WHERE followuser_id = ? AND followinguser_id = ?");
+        $stmt4->execute([$followuser_id, $followinguser_id]);
+    }
 }
-
-
-echo $searchTerm;
-// Assign the value of $searchTerm to the 'sterm' session variable
-
-header("Location: ../profiles/rprofiles.php?search=" . $searchusern);
+header("Location: rprofiles.php?search=" . urlencode($searchusern));
 exit();
-?>

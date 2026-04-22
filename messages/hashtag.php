@@ -9,7 +9,7 @@ if (isset($_SESSION['user_id'])) {
 }
 ?>
 <?php
-// so for some stupid reason the code always breaks unless its in its own 'container' of sorts dont know why and probably wont fix - therandomspoon
+// so for some stupid reason the code always breaks unless its in its own 'container' of sorts dont know why and probably wont fix - Adam Gillion
 include '../cmode.php'
 ?>
 <!DOCTYPE html>
