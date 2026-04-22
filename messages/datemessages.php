@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-include '../cmode.php';
+include '../profiles/cmode.php';
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
     $username = $_SESSION['username'];

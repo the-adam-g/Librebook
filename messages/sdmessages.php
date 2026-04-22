@@ -20,7 +20,7 @@ function extractID($string) {
         if ($semicolonPosition !== false) {
             $numbers = substr($substringAfterSymbol, 3, $semicolonPosition - 3);
             $numbers = preg_replace("/[^0-9]/", "", $numbers);
-            $replacement = "<a href='../messages/spmessages.php/?id=$numbers'>Reply to</a>";
+            $replacement = "<a href='spmessages.php/?id=$numbers'>Reply to</a>";
             $string = substr_replace($string, $replacement, $symbolPosition, $semicolonPosition + 1);
         }
     }

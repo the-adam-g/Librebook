@@ -26,14 +26,14 @@
 <body>
     <section id="head">
 	<h1 id="headl">Librebook</h1>
-        <img src="/images/librebook1.png" alt="Librebook Logo" style="height: 125px; width: 125px;">
+        <img src="../images/librebook1.png" alt="Librebook Logo" style="height: 125px; width: 125px;">
     </section>
     <?php
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
     session_start();
-    include '../cmode.php';
     include '../config.php';
+    include 'cmode.php';
 
     function displayMessage($message) {
         echo '<section id="messages">';

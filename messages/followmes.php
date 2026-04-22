@@ -29,13 +29,13 @@ if ($_SESSION['sudopassword'] != $_SESSION['currentpass']) { //* comparing the c
     <title>librebook</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <?php
-    include '../cmode.php';
+    include '../profiles/cmode.php';
     ?>
 </head>
 <body>
 
     <section id="head">
-        <img src="/images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
+        <img src="../images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
         <h1 id="headl">Librebook</h1>
     </section>
     <br>
@@ -44,9 +44,9 @@ if ($_SESSION['sudopassword'] != $_SESSION['currentpass']) { //* comparing the c
         echo 'Welcome back ' . htmlspecialchars($username) . '!';
         ?>
         <p></p>
-        <a href="/deleteyou.php">Delete your account</a><a href="/settings.php" style="float: right;">Go to Settings</a>
+        <a href="../deleteyou.php">Delete your account</a><a href="../settings.php" style="float: right;">Go to Settings</a>
         <p></p>
-        <a href="/logout.php">Logout</a><a href="/main.php" style="float: right;">Take me to the main page</a>
+        <a href="../logout.php">Logout</a><a href="../main.php" style="float: right;">Take me to the main page</a>
         <p></p>
 
     </div>
@@ -58,12 +58,11 @@ if ($_SESSION['sudopassword'] != $_SESSION['currentpass']) { //* comparing the c
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
-include '../config.php';
 
 $loginuser = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 
 if (empty($loginuser)) {
-    header("Location: /path/to/redirected/page.php");
+    header("Location: ../index.php");
     exit();
 }
 
@@ -95,15 +94,12 @@ function convertHashtagsToLinks($message) {
 }
 
 try {
-    $stmt = $pdo->prepare("SELECT m.id, m.name, m.message, m.timestamp
-                            FROM messages m
-                            JOIN users u ON m.name = u.username
-                            WHERE u.following LIKE CONCAT('%', ?, '%')
-                            ORDER BY m.timestamp DESC");
-
-    $stmt->bindParam(1, $loginuser, PDO::PARAM_STR);
-    $stmt->execute();
-
+    /*
+    “user being followed” → followuser_id
+    “person who clicked follow” → followinguser_id
+    */
+    $stmt = $pdo->prepare("SELECT m.* FROM messages m JOIN following f ON m.userid = f.followuser_id WHERE f.followinguser_id = ? ORDER BY m.timestamp DESC");
+    $stmt->execute([$userId]);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if ($result) {

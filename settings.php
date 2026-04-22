@@ -77,7 +77,7 @@ include 'cmode.php';
 </style>
 <body>
     <section id="head">
-        <img src="/images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
+        <img src="images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
         <h1 id="headl">Librebook</h1>
     </section>
     <section id="messages">
@@ -111,11 +111,11 @@ include 'cmode.php';
         <p></p>
         <hr>
         <p></p>
-        <a href="../logout.php"><button>Logout</button></a>
+        <a href="logout.php"><button>Logout</button></a>
         <p></p>
         <hr>
         <p></p>
-        <a href="../profiles/sprofile.php"><button>Edit my profile</button></a>
+        <a href="profiles/sprofile.php"><button>Edit my profile</button></a>
         <p></p>
         <hr>
         <p></p>
@@ -133,7 +133,7 @@ include 'cmode.php';
         <button type="submit">Save Changes</button>
     </form>
     <br>
-    <a href="../main.php">Go back to main page</a>
+    <a href="main.php">Go back to main page</a>
     </section>
 </body>
 </html>

@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 include '../config.php';
-include '../cmode.php';
+include 'cmode.php';
 $username = $_SESSION['username'];
 
 $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
@@ -30,7 +30,7 @@ function extractID($string) {
         if ($semicolonPosition !== false) {
             $numbers = substr($substringAfterSymbol, 3, $semicolonPosition - 3);
             $numbers = preg_replace("/[^0-9]/", "", $numbers);
-            $replacement = "<a href='../messages/spmessages.php/?id=$numbers'>Reply to</a>";
+            $replacement = "<a href='spmessages.php/?id=$numbers'>Reply to</a>";
             $string = substr_replace($string, $replacement, $symbolPosition, $semicolonPosition + 1);
         }
     }
@@ -38,13 +38,13 @@ function extractID($string) {
 }
 
 function convertHashtagsToLinks($message) {
-    return preg_replace('/#(\w+)/', '<a href="../messages/hashtag.php?tag=$1">#$1</a>', $message);
+    return preg_replace('/#(\w+)/', '<a href="hashtag.php?tag=$1">#$1</a>', $message);
 }
 
 $messageId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if (!$messageId) {
-    header("Location: /main.php");
+    header("Location: ../main.php");
     exit();
 }
 
@@ -67,6 +67,8 @@ $id = $row["id"];
 
 $parsedMessage = extractID($rawMessage);
 $parsedMessage = convertHashtagsToLinks($parsedMessage);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,12 +77,14 @@ $parsedMessage = convertHashtagsToLinks($parsedMessage);
     <title>Librebook - Message from <?php echo $name; ?></title>
     <meta property="og:title" content="<?php echo htmlspecialchars($rawMessage); ?>">
     <meta property="og:description" content="Sent by <?php echo $name; ?> at <?php echo $timestamp; ?>">
-    <meta property="og:url" content="https://librebook.co.uk/messages/spmessages.php?id=<?php echo $id; ?>">
+    <?php $siteurl =  SITEURL . ltrim($_SERVER['REQUEST_URI'], '/'); ?>
+    <meta property="og:url" content="<?php echo ($siteurl); ?>">
     <meta property="og:type" content="article">
+    
 </head>
 <body>
     <section id="head">
-        <img src="/images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
+        <img src="../../images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
         <h1 id="headl">Librebook</h1>
     </section>
     <br>

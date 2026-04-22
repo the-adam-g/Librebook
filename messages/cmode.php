@@ -12,28 +12,28 @@ function echoStylesheetTag($preferredMode) {
 
     switch ($preferredMode) {
         case 'dark':
-            $stylesheet = 'css/dark-mode.css';
+            $stylesheet = '../../css/dark-mode.css';
             break;
         case 'blue':
-            $stylesheet = 'css/blue.css';
+            $stylesheet = '../../css/blue.css';
             break;
         case 'nothing':
             $stylesheet = '';
             break;
         case 'opposite':
-            $stylesheet = 'css/opposite.css';
+            $stylesheet = '../../css/opposite.css';
             break;
         case 'liberatube':
-            $stylesheet = 'css/liberatube.css';
+            $stylesheet = '../../css/liberatube.css';
             break;
         case 'nature':
-            $stylesheet = 'css/green.css';
+            $stylesheet = '../../css/green.css';
             break;
 	case 'tecopa':
-	    $stylesheet = 'css/tecopa.css';
+	    $stylesheet = '../../css/tecopa.css';
 	    break;
         default:
-            $stylesheet = 'css/mainsite.css';
+            $stylesheet = '../css/mainsite.css';
     }
 
     echo '<link rel="stylesheet" href="' . $stylesheet . '">';

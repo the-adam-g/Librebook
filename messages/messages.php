@@ -26,7 +26,7 @@ function extractID($string) {
         if ($semicolonPosition !== false) {
             $numbers = substr($substringAfterSymbol, 3, $semicolonPosition - 3);
             $numbers = preg_replace("/[^0-9]/", "", $numbers);
-            $replacement = "<a href='../messages/spmessages.php/?id=$numbers'>Reply to</a>";
+            $replacement = "<a href='messages/spmessages.php/?id=$numbers'>Reply to</a>";
             $string = substr_replace($string, $replacement, $symbolPosition, $semicolonPosition + 1);
         }
     }
@@ -62,11 +62,11 @@ function savepost($id) { //lowkey just copied the following user logic here. Ada
 
 function convertHashtagsToLinks($message) {
     $pattern = '/#(\w+)/';
-    return preg_replace($pattern, '<a href="../messages/hashtag.php?tag=$1">#$1</a>', $message);
+    return preg_replace($pattern, '<a href="messages/hashtag.php?tag=$1">#$1</a>', $message);
 }
 
 function convertNameToLink($name) {
-    return '<a href="../profiles/rprofiles.php?search=' . urlencode($name) . '">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</a>';
+    return '<a href="profiles/rprofiles.php?search=' . urlencode($name) . '">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</a>';
 }
 
 try {
@@ -105,10 +105,10 @@ try {
             $isverif = $vRow["verified"] ?? 0;
 
             if ($isverif) {
-                $vname .= ' <img src=/images/verified2.svg alt="Verified" style="vertical-align: middle; max-width: 18px; max-height: 18px;">';
+                $vname .= ' <img src=images/verified2.svg alt="Verified" style="vertical-align: middle; max-width: 18px; max-height: 18px;">';
             }
 
-            $nameLink = '<a href="../profiles/rprofiles.php?search=' . urlencode($rawName) . '">' . $vname . '</a>';
+            $nameLink = '<a href="profiles/rprofiles.php?search=' . urlencode($rawName) . '">' . $vname . '</a>';
 
             $message = htmlspecialchars($row["message"], ENT_QUOTES, 'UTF-8');
             $timestamp = $row["timestamp"];
@@ -176,8 +176,8 @@ try {
 
             $dropdownId = "dropdown_" . $id;
             echo "<div style='display: flex; align-items: center; gap: 10px;'>";
-            echo "<a href='../messages/reply.php?id=" . urlencode($id) . "' style='color: #4aa3ff; text-decoration: none;'><button>Reply</button></a>";
-            echo "<a href='../messages/messhare.php?id=" . urlencode($id) . "' style='color: #4aa3ff; text-decoration: none;'><button>Share</button></a>";
+            echo "<a href='messages/reply.php?id=" . urlencode($id) . "' style='color: #4aa3ff; text-decoration: none;'><button>Reply</button></a>";
+            echo "<a href='messages/messhare.php?id=" . urlencode($id) . "' style='color: #4aa3ff; text-decoration: none;'><button>Share</button></a>";
             $savedPostsString = '';
             if (isset($_SESSION['username'])) {
                 $stmt = $pdo->prepare("SELECT saved FROM users WHERE username = ?");
@@ -188,9 +188,9 @@ try {
             $savedPostsArray = array_filter(array_map('trim', explode(',', $savedPostsString)));
             $isSaved = in_array($id, $savedPostsArray);
             if ($isSaved) {
-                echo '<a href="../messages/messages.php?savepost=' . $id . '"><button>Unsave Post</button></a>';
+                echo '<a href="messages/messages.php?savepost=' . $id . '"><button>Unsave Post</button></a>';
             } else {
-                echo '<a href="../messages/messages.php?savepost=' . $id . '"><button>Save Post</button></a>';
+                echo '<a href="messages/messages.php?savepost=' . $id . '"><button>Save Post</button></a>';
             }
             echo "<div class='dropdown'>
                     <button onclick=\"toggleDropdown('{$dropdownId}')\" class='dropbtn'>React!</button>

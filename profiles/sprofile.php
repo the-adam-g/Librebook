@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../config.php';
-
+include 'cmode.php';
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
     $username = $_SESSION['username'];
@@ -71,10 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-?>
-
-<?php
-include '../cmode.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

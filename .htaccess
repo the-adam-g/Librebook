@@ -3,10 +3,6 @@
 <Files "*.json">
     Require all denied
 </Files>
-<Directory "/pfp/">
-    Order Allow,Deny
-    Deny from all
-</Directory>
 php_value date.timezone UTC
 
 RewriteEngine On

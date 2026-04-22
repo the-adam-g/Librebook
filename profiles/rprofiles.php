@@ -3,8 +3,8 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include '../cmode.php';
 include '../config.php';
+include 'cmode.php';
 $username = $_SESSION['username'];
 $_SESSION['mostrecent'] = isset($_GET['id']) ? $_GET['id'] : '';
 $userId = $_SESSION['user_id'] ?? null;
@@ -130,7 +130,7 @@ function convertHashtagsToLinks($message) {
                 echo '<meta property="og:title" content="' . htmlspecialchars($foundProfile['username']) . '">';
                 echo '<meta property="og:description" content="' . htmlspecialchars($foundProfile['bio']) . '">';
                 echo '<meta property="og:image" content="' . htmlspecialchars($foundProfile['pfp']) . '">';
-                echo '<meta property="og:url" content="http://librebook.co.uk/profiles/rprofiles.php?search=' . urlencode($foundProfile['username']) . '">';
+                echo '<meta property="og:url" content="' . SITEURL . ltrim($_SERVER['REQUEST_URI'], '/') . '">';
                 echo '<style> body { background-image: none !important; background-color: ' . htmlspecialchars($foundProfile['PROCOLOUR']) . ' !important; }</style>';
                 echo '<meta property="og:type" content="profile">';
                 echo '<section id="messages" style="flex-grow: 1;">';

@@ -3,7 +3,7 @@ include 'config.php';
 session_start();
 
 if (!isset($_SESSION['username'])) {
-    header('Location: ../login/login.html');
+    header('Location: login/login.html');
     exit();
 }
 
@@ -30,6 +30,26 @@ include 'cmode.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+<style>
+#doom {
+    background-color: #DF1616;
+    color: white;
+    font-weight: bold;
+    border: 2px #DF1616;
+    border-radius: 8px;
+    text-decoration: none;
+    padding: 10px; 
+}
+#doom:hover {
+    background-color: #B21111;
+    color: white;
+    font-weight: bold;
+    border: 2px #B21111;
+    border-radius: 8px;
+    text-decoration: none;
+    padding: 10px; 
+}
+</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +57,7 @@ include 'cmode.php';
 </head>
 <body>
     <section id="head">
-        <img src="../images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
+        <img src="images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
         <h1 id="headl">Librebook</h1>
     </section>
     <section id="sendamess">

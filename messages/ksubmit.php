@@ -9,8 +9,13 @@ include '../config.php';
 try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $name = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
-        $message_text = $_POST["message_text"];
-        $nsfw = isset($_POST['nsfw']) && $_POST['nsfw'] == 1 ? 1 : 0;
+        $message_text = $_POST["message"];
+        if(isset($_POST['nsfw'])){
+            $nsfw = 1;
+        } else {
+            $nsfw = 0;
+        }
+        $userId = $_SESSION['user_id'];
 
         if (empty($name) || empty($message_text)) {
             echo "Sender name and message are required!";
@@ -35,14 +40,12 @@ try {
                 $message_text = $_SESSION['replyto'] . $message_text;
             }
 
-            $sql = "INSERT INTO messages (`name`, `message`, `timestamp`, `nsfw`) VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(1, $name, PDO::PARAM_STR);
-            $stmt->bindParam(2, $message_text, PDO::PARAM_STR);
-            $stmt->bindValue(3, $nsfw, PDO::PARAM_INT);
-            $stmt->execute();
+            $stmt = $pdo->prepare("INSERT INTO messages (`userid`, `name`, `message`, `timestamp`, `nsfw`) VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+            $stmt->execute([$userId, $name, $message_text, $nsfw]);
             echo "Message sent successfully!";
             unset($_SESSION['replyto']);
+            header("Location: ../main.php");
+            exit();
         }
     }
 } catch (PDOException $e) {

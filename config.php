@@ -7,6 +7,7 @@ $db_name = '';
 $db_user = '';
 $db_password = '';
 $sacredwork = ''; // For a future unreleased update regarding verifying accounts 
+define('SITEURL', 'https://librebook.co.uk/'); // replace with your url
 
 $offsetnum = 10; // the number of messages loaded per page
 
