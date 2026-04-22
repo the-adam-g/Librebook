@@ -10,8 +10,6 @@ Librebook the free, secure, not selling your data social media solution made by 
 [![Issues](https://img.shields.io/github/issues/the-adam-g/librebook?color=important)](https://github.com/the-adam-g/librebook/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/the-adam-g/librebook?color=blueviolet)](https://github.com/the-adam-g/librebook/pulls)
 
-![image](https://github.com/the-adam-g/librebook/blob/main/screenshots/bannerbook.png)
-
 ## Developers
 - Lead developer: Adam Gillion
 
