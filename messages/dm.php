@@ -12,6 +12,7 @@ if (isset($_SESSION['user_id'])) {
 }
 
 include '../config.php';
+include '../profiles/cmode.php';
 $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
 $stmt->execute([$username]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -45,7 +46,7 @@ if ($_SESSION['sudopassword'] != $_SESSION['currentpass']) { //* comparing the c
 <body>
 
     <section id="head">
-        <img src="/images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
+        <img src="../images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
         <h1 id="headl">Librebook</h1>
     </section>
     <br>
@@ -63,21 +64,19 @@ if ($_SESSION['sudopassword'] != $_SESSION['currentpass']) { //* comparing the c
     <section id="frlist">
         <h1>Your friends</h1>
         <?php
-
         try {
-            $query = "SELECT username
-                      FROM users
-                      WHERE FIND_IN_SET(:search, REPLACE(following, ' ', '')) > 0";
-
+            /*
+            “user being followed” → followuser_id
+            “person who clicked follow” → followinguser_id
+            */
+            $query = "SELECT followingname FROM following WHERE followuser_id = ?";
             $stmt = $pdo->prepare($query);
-            $stmt->bindValue(':search', $username, PDO::PARAM_STR);
-            $stmt->execute();
-
+            $stmt->execute([$userId]);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if ($result) {
                 foreach ($result as $row) {
-                    echo '<a style="font-size: 20px;" href="../profiles/rprofiles.php?search=' . htmlspecialchars($row["username"], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($row["username"], ENT_QUOTES, 'UTF-8') . '</a><br>';
+                    echo '<a style="font-size: 20px;" href="../profiles/rprofiles.php?search=' . htmlspecialchars($row["followingname"], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($row["followingname"], ENT_QUOTES, 'UTF-8') . '</a><br>';
                 }
             } else {
                 echo "No users found.";
@@ -173,7 +172,4 @@ $(document).ready(function () {
 
 <?php
 }
-?>
-<?php
-include '../cmode.php';
 ?>
