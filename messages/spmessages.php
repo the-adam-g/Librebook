@@ -77,8 +77,6 @@ $parsedMessage = convertHashtagsToLinks($parsedMessage);
     <meta property="og:description" content="Sent by <?php echo $name; ?> at <?php echo $timestamp; ?>">
     <meta property="og:url" content="https://librebook.co.uk/messages/spmessages.php?id=<?php echo $id; ?>">
     <meta property="og:type" content="article">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@thatrandomspoon">
 </head>
 <body>
     <section id="head">
