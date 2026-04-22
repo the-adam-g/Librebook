@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 include '../config.php';
-include '../cmode.php';
+include '../profiles/cmode.php';
 
 $chatid   = intval($_GET['gcid']);
 $userId   = $_SESSION['user_id'] ?? null;
@@ -81,7 +81,7 @@ if (isset($_POST['kick_specuser']) && isset($_POST['id'])) {
 </head>
 <body>
     <section id="head">
-        <img src="/images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
+        <img src="../images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
         <h1 id="headl">Librebook</h1>
     </section>
     <section id="messages">

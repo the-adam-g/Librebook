@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 include '../config.php';
-include '../cmode.php';
+include '../profiles/cmode.php';
 $chatid = intval($_GET['gcid']);
 $userId   = $_SESSION['user_id'] ?? null;
 $stmt2 = $pdo->prepare("SELECT gcname FROM gc_ids WHERE chatid = :chatid");
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <section id="head">
-    <img src="/images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
+    <img src="../images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
     <h1 id="headl">Librebook</h1>
 </section>
 <section id="messages">

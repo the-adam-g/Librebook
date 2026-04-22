@@ -3,8 +3,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include '../config.php';
 session_start();
-include '../cmode.php';
-$emessage = $_SESSION['emessage'] ?? 'An unknown error occurred during registration.';
+include '../profiles/cmode.php';
+
+$emessage = $_SESSION['emessage'] ?? '';
 $username = $_SESSION['username'] ?? null;
 unset($_SESSION['emessage']);
 function containsEmoji($string) {
@@ -65,7 +66,7 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
     <section id="head">
-        <img src="/images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
+        <img src="../images/librebook1.png" style="max-width: 100%; height: auto; width: 125px; float: right;">
         <h1 id="headl">Librebook</h1>
     </section>
     <section id="messages">

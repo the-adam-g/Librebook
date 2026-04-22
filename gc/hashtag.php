@@ -8,10 +8,6 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
-<?php
-// so for some stupid reason the code always breaks unless its in its own 'container' of sorts dont know why and probably wont fix - Adam Gillion
-include '../cmode.php'
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +36,7 @@ include '../cmode.php'
 </body>
 <?php
 include '../config.php';
+include '../profiles/cmode.php';
 $kmode = $_SESSION['kmode'] ?? 'off';
 
 function extractVideoId($url) {
