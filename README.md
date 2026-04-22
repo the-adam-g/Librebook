@@ -10,17 +10,12 @@ Librebook the free, secure, not selling your data social media solution made by 
 [![Issues](https://img.shields.io/github/issues/the-adam-g/librebook?color=important)](https://github.com/the-adam-g/librebook/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/the-adam-g/librebook?color=blueviolet)](https://github.com/the-adam-g/librebook/pulls)
 
-![image](https://github.com/the-adam-g/librebook/blob/main/screenshots/bannerbook.png)
-
 ## Developers
 - Lead developer: Adam Gillion
 
-- Bing AI: Contributed a lot of the login code as i have no idea what im doing. Also made the code SQL and HTML injection proof
 ## Major Contributors
-Golddominik893 - i intended to steal a lot of code from Golddominik893 for the login system but i got confused cos im a bit stupid.
-<br>
-<br>
-Bing AI - Surprisingly good and free image generation. Contributed Leo the lion (mascot of librebook)
+Bing AI - Contributed Leo the lion (mascot of librebook)
+
 First version (genesis) finished on the 22/12/2023 and released on github.
 
 # Components required
@@ -49,12 +44,9 @@ First version (genesis) finished on the 22/12/2023 and released on github.
 - folders for the files organisation cos Golddominik893 asked
 - Instance hosted by me (http://librebook.rf.gd/)
 - Deleting accounts
-
-# Upcoming features
-- p2p messaging systen (dm's) (***very soon***)
-- reactions 
-- global access sql server for messages (soon but not as soon as deleting accounts but still more soon than my hosted ver)
-- friending system
+- DMs
+- Reactions
+- Friending system
 
 # Screenshots (genesis ver)
 ## landing page
