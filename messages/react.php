@@ -9,8 +9,8 @@ if (isset($_SESSION['user_id'])) {
 }
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
-include '../cmode.php';
 include '../config.php';
+include '../cmode.php';
 $mesid = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $emoji = isset($_GET['react']) ? $_GET['react'] : '';
 ?>
