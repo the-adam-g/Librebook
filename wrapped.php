@@ -51,7 +51,7 @@ data {
         echo "You have sent <data>{$totalPastYear}</data> reactions since " . date('Y-m-d H:i:s', strtotime('-1 year'));
         echo "<br>";
         echo "<br>";
-        $query = "SELECT COUNT(*) AS total FROM messages WHERE user_id = ? AND `timestamp` >= NOW() - INTERVAL 1 YEAR";
+        $query = "SELECT COUNT(*) AS total FROM messages WHERE userid = ? AND `timestamp` >= NOW() - INTERVAL 1 YEAR";
         $stmt = $pdo->prepare($query);
         $stmt->execute([$userId]);
         $totalPastYear = (int)$stmt->fetchColumn();
