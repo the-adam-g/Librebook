@@ -141,7 +141,8 @@ CREATE TABLE `reactions` (
   `messageid` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `reaction` enum('like','dislike','love','shock') DEFAULT NULL,
-  `userid` int(11) NOT NULL
+  `userid` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 -- --------------------------------------------------------
